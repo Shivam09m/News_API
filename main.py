@@ -1,4 +1,5 @@
 import requests
+from send_email import send_email
 
 api_key = "f05e41a0cdea4fc3a43b13f75fc53d92"
 url = "https://newsapi.org/v2/everything?q=tesla&" \
@@ -10,8 +11,12 @@ request = requests.get(url)
 
 # Get a Dictionary with Data
 content = request.json()
-
+print(content)
 # Access the Article titles and description
+body = ""
+print(type(body))
 for article in content["articles"]:
-    print(article["title"])
-    print(article["description"])
+    body = body + str(article["title"]) + "\n" + str(article["description"]) + "\n\n"
+
+body = body.encode("utf-8")
+send_email(body)
